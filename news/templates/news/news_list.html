@@ -1,0 +1,15 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+    <div class="content-container">
+        {% for new in news_list %}
+            <div class="news-item">
+                <div class="news-title">{{ new.title }}</div>
+                <div class="news-pub_date">{{ new.pub_date }}</div>
+                <div class="news-author">Автор: {{ new.author.username }}</div>
+                <div class="news-text">{{ new.text }}</div>
+                <a href="{% url 'new-item' new.id %}">Читать</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

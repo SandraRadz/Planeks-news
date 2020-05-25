@@ -1,0 +1,38 @@
+.header{
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+.content-container{
+
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.news-item{
+    margin-top: 50px;
+    border: #17a2b8 solid 1px;
+    border-radius: 5px;
+    padding: 25px;
+}
+
+.news-title{
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+.news-pub_date{
+    font-size: 12px;
+}
+.news-author{
+    font-size: 14px;
+}
+
+.news-text{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.back-arrow{
+   margin-bottom: 25px;
+}
+

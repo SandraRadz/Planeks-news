@@ -1,0 +1,15 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+    <div class="content-container">
+        <a href="{% url 'news-list' %}" class="back-arrow"><-Назад</a>
+        {% if new_item %}
+            <div class="news-item">
+                <div class="news-title">{{ new_item.title }}</div>
+                <div class="news-pub_date">{{ new_item.pub_date }}</div>
+                <div class="news-author">Автор: {{ new_item.author.username }}</div>
+                <div class="news-text">{{ new_item.text }}</div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
