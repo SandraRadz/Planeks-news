@@ -1,15 +1,45 @@
 {% extends "news/base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
     <div class="content-container">
         <a href="{% url 'news-list' %}" class="back-arrow"><-Назад</a>
-        {% if new_item %}
             <div class="news-item">
                 <div class="news-title">{{ new_item.title }}</div>
                 <div class="news-pub_date">{{ new_item.pub_date }}</div>
                 <div class="news-author">Автор: {{ new_item.author.username }}</div>
                 <div class="news-text">{{ new_item.text }}</div>
             </div>
-        {% endif %}
+            <div class="comment-block">
+                <div class="comment-block-title">Комментарии</div>
+                <div class="container">
+                    {% for comment in new_item.comments.all %}
+                        <div class="comment-item row">
+                            <div class="col-4">
+                                <div class="comment-author">{{ comment.author.username }}</div>
+                            <div class="comment-date-created">{{ comment.date_created }}</div>
+                            </div>
+                            <div class="col-8 comment-text">{{ comment.text }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="add-comment-block">
+                        <form action="{% url 'new-item' new_item.id %}" method="post">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.text.errors }}
+                                {{ form.text|as_crispy_field }}
+                            </div>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="info-text">Войдите, что бы добавить комментарий</div>
+                {% endif %}
+            </div>
+
     </div>
 {% endblock %}

@@ -1,9 +1,8 @@
-from django.shortcuts import render
-
-# Create your views here.
+from django.urls import reverse
 from django.views import generic
 
-from news.models import New
+from news.forms import CommentForm
+from news.models import New, Comment
 
 
 class NewsList(generic.ListView):
@@ -12,8 +11,36 @@ class NewsList(generic.ListView):
     context_object_name = 'news_list'
 
 
-class NewDetail(generic.DetailView):
+class NewDisplay(generic.DetailView):
     queryset = New.objects.filter(status='A')
     template_name = 'news/new_item.html'
     context_object_name = 'new_item'
 
+    def get_context_data(self, **kwargs):
+        context = super(NewDisplay, self).get_context_data(**kwargs)
+        context['form'] = CommentForm()
+        return context
+
+
+class NewComment(generic.detail.SingleObjectMixin, generic.FormView):
+    template_name = 'news/new_item.html'
+    form_class = CommentForm
+    model = New
+
+    def form_valid(self, form):
+        Comment.objects.create(author=self.request.user, text=form.cleaned_data['text'], new=self.get_object())
+        form.send_email()
+        return super().form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        return reverse('new-item', kwargs={'pk': self.kwargs['pk']})
+
+
+class NewDetail(generic.View):
+    def get(self, request, *args, **kwargs):
+        view = NewDisplay.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = NewComment.as_view()
+        return view(request, *args, **kwargs)

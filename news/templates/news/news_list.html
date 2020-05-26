@@ -2,6 +2,11 @@
 
 {% block content %}
     <div class="content-container">
+        {% if user.is_authenticated %}
+            {#form#}
+        {% else %}
+            <div class="info-text">Войдите, что бы добавить новость</div>
+        {% endif %}
         {% for new in news_list %}
             <div class="news-item">
                 <div class="news-title">{{ new.title }}</div>
