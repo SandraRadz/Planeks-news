@@ -55,4 +55,4 @@ class Comment(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата написания")
 
     def __str__(self):
-        return "Комментарий "+self.author.username
+        return "Комментарий "+self.author.email

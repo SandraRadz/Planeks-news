@@ -17,7 +17,7 @@
                     {% for comment in new_item.comments.all %}
                         <div class="comment-item row">
                             <div class="col-4">
-                                <div class="comment-author">{{ comment.author.username }}</div>
+                                <div class="comment-author">{{ comment.author.email }}</div>
                             <div class="comment-date-created">{{ comment.date_created }}</div>
                             </div>
                             <div class="col-8 comment-text">{{ comment.text }}</div>
