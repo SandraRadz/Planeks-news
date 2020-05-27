@@ -9,7 +9,7 @@
                 <div class="news-title">{{ new_item.title }}</div>
                 <div class="news-pub_date">{{ new_item.pub_date }}</div>
                 <div class="news-author">Автор: {{ new_item.author.username }}</div>
-                <div class="news-text">{{ new_item.text }}</div>
+                <div class="news-text">{{ new_item.text|safe }}</div>
             </div>
             <div class="comment-block">
                 <div class="comment-block-title">Комментарии</div>
@@ -33,7 +33,7 @@
                                 {{ form.text.errors }}
                                 {{ form.text|as_crispy_field }}
                             </div>
-                            <input type="submit" value="Submit">
+                            <input type="submit" class="btn btn-info" value="Отправить">
                         </form>
                     </div>
                 {% else %}

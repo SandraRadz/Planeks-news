@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.views import generic
 
-from news.forms import CommentForm
+from news.forms import CommentForm, NewForm
 from news.models import New, Comment
 
 
@@ -44,3 +44,16 @@ class NewDetail(generic.View):
     def post(self, request, *args, **kwargs):
         view = NewComment.as_view()
         return view(request, *args, **kwargs)
+
+
+class CreateNew(generic.FormView):
+    template_name = "news/add_new.html"
+    form_class = NewForm
+
+    def form_valid(self, form):
+        New.objects.create(author=self.request.user, text=form.cleaned_data['text'], title=form.cleaned_data['title'])
+        return super().form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        # todo "thanks for your suggestion"|new-item/pk
+        return reverse('news-list')

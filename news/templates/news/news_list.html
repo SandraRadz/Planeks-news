@@ -3,7 +3,7 @@
 {% block content %}
     <div class="content-container">
         {% if user.is_authenticated %}
-            {#form#}
+            <a href="{% url 'create-new' %}">Создать новость</a>
         {% else %}
             <div class="info-text">Войдите, что бы добавить новость</div>
         {% endif %}
@@ -12,8 +12,8 @@
                 <div class="news-title">{{ new.title }}</div>
                 <div class="news-pub_date">{{ new.pub_date }}</div>
                 <div class="news-author">Автор: {{ new.author.username }}</div>
-                <div class="news-text">{{ new.text }}</div>
-                <a href="{% url 'new-item' new.id %}">Читать</a>
+                    <div class="news-text">{{ new.text|safe }}</div>
+                <a href="{% url 'new-item' new.id %}">Обсудить</a>
             </div>
         {% endfor %}
     </div>

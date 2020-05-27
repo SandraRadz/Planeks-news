@@ -4,9 +4,7 @@
 }
 
 .content-container{
-
-    margin-left: 150px;
-    margin-right: 150px;
+    margin: 40px 150px;
 }
 
 .news-item{
@@ -74,4 +72,13 @@
 
 .input-comment{
     display: inline-block;
+}
+
+.page-title{
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+
+.error-message{
+    color: red;
 }

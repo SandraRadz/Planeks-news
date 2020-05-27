@@ -1,0 +1,26 @@
+{% extends "news/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-container">
+        <a href="{% url 'news-list' %}" class="back-arrow"><-Назад</a>
+        <div class="page-title">Создать новость</div>
+        <form action="{% url 'create-new' %}" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper">
+                {{ form.title.errors }}
+                {{ form.title|as_crispy_field }}
+            </div>
+            <div class="fieldWrapper">
+                {{ form.text|as_crispy_field|safe }}
+                <div class="error-message">{{ form.text.errors}}</div>
+            </div>
+            <input type="submit" class="btn btn-info" value="Создать">
+        </form>
+</div>
+    <script>
+        $('.text').summernote();
+    </script>
+{% endblock %}
