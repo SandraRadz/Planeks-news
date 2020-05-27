@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import generic
 
@@ -22,7 +23,8 @@ class NewDisplay(generic.DetailView):
         return context
 
 
-class NewComment(generic.detail.SingleObjectMixin, generic.FormView):
+# todo login_required
+class NewComment(LoginRequiredMixin, generic.detail.SingleObjectMixin, generic.FormView):
     template_name = 'news/new_item.html'
     form_class = CommentForm
     model = New
@@ -46,7 +48,8 @@ class NewDetail(generic.View):
         return view(request, *args, **kwargs)
 
 
-class CreateNew(generic.FormView):
+# todo login_required
+class CreateNew(LoginRequiredMixin, generic.FormView):
     template_name = "news/add_new.html"
     form_class = NewForm
 

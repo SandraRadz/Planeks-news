@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'django_summernote',
-    'news.apps.NewsConfig'
+    'news.apps.NewsConfig',
+    'myuser.apps.MyuserConfig'
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'planeks_news.wsgi.application'
 
+AUTH_USER_MODEL = 'myuser.MyUser'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
