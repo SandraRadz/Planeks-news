@@ -1,6 +1,9 @@
+from django.template import loader
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import generic
+from django.core.mail import send_mail
 
 from news.forms import CommentForm, NewForm
 from news.models import New, Comment
@@ -32,11 +35,24 @@ class NewComment(LoginRequiredMixin, generic.detail.SingleObjectMixin, generic.F
 
     def form_valid(self, form):
         Comment.objects.create(author=self.request.user, text=form.cleaned_data['text'], new=self.get_object())
-        form.send_email()
+        message = f"Пользователь {self.request.user} оставил комментарий под Вашей новостью {self.get_object().title}"
+        html_message = loader.render_to_string(
+            'news/letter.html',
+            {
+                'user_name': self.request.user,
+                'new': self.get_object().title,
+            }
+        )
+        self.__send_email(message, self.get_object().author.email, html_message)
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         return reverse('new-item', kwargs={'pk': self.kwargs['pk']})
+
+    @staticmethod
+    def __send_email(comment, receiver, html_message=None):
+        send_mail('Новый комментарий на сайте planeks-news', comment, 'oleksandraradzievska@gmail.com', [receiver],
+                  fail_silently=False, html_message=html_message)
 
 
 class NewDetail(generic.View):
