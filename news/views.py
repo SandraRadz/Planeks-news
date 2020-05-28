@@ -28,6 +28,7 @@ class NewComment(LoginRequiredMixin, generic.detail.SingleObjectMixin, generic.F
     template_name = 'news/new_item.html'
     form_class = CommentForm
     model = New
+    login_url = '/auth/login'
 
     def form_valid(self, form):
         Comment.objects.create(author=self.request.user, text=form.cleaned_data['text'], new=self.get_object())
@@ -52,6 +53,7 @@ class NewDetail(generic.View):
 class CreateNew(LoginRequiredMixin, generic.FormView):
     template_name = "news/add_new.html"
     form_class = NewForm
+    login_url = '/auth/login'
 
     def form_valid(self, form):
         New.objects.create(author=self.request.user, text=form.cleaned_data['text'], title=form.cleaned_data['title'])

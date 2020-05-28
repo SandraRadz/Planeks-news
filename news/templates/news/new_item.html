@@ -8,7 +8,7 @@
             <div class="news-item">
                 <div class="news-title">{{ new_item.title }}</div>
                 <div class="news-pub_date">{{ new_item.pub_date }}</div>
-                <div class="news-author">Автор: {{ new_item.author.username }}</div>
+                <div class="news-author">Автор: {{ new_item.author.email }}</div>
                 <div class="news-text">{{ new_item.text|safe }}</div>
             </div>
             <div class="comment-block">

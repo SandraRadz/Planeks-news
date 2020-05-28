@@ -10,12 +10,12 @@ from myuser.models import MyUser
 class MyUserAdmin(UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('email', 'first_name', 'last_name', 'is_admin')
-    list_filter = ('is_admin',)
+    list_display = ('email', 'first_name', 'last_name', 'is_staff')
+    list_filter = ('is_staff',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Персональная информация', {'fields': ('first_name', 'last_name', 'date_of_birth')}),
-        ('Разрешения', {'fields': ('is_admin',)})
+        ('Разрешения', {'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions')})
     )
 
     add_fieldsets = (
@@ -27,8 +27,7 @@ class MyUserAdmin(UserAdmin):
 
     search_fields = ('email',)
     ordering = ('email',)
-    filter_horizontal = ()
+    filter_horizontal = ('groups', 'user_permissions')
 
 
 admin.site.register(MyUser, MyUserAdmin)
-

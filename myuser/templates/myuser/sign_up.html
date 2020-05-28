@@ -1,0 +1,21 @@
+{% extends "myuser/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-container">
+        <div class="page-title">Создать новость</div>
+        <form action="{% url 'user-sign-up' %}" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field|as_crispy_field }}
+                </div>
+            {% endfor %}
+
+            <input type="submit" class="btn btn-info" value="Зарегистрироваться">
+        </form>
+        <a href="{% url 'user-log-in' %}">Есть аккаунт</a>
+    </div>
+{% endblock %}

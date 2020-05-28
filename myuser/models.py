@@ -1,6 +1,8 @@
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, Group
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class MyUserManager(BaseUserManager):
@@ -19,17 +21,22 @@ class MyUserManager(BaseUserManager):
             email=email,
             password=password
         )
-        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser, PermissionsMixin):
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     object = MyUserManager()
 
@@ -39,14 +46,8 @@ class MyUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        return True
 
-    def has_module_perms(self, app_label):
-        # todo
-        return True
-
-    @property
-    def is_staff(self):
-        return self.is_admin
-
+@receiver(post_save, sender=MyUser)
+def update_stock(sender, instance, **kwargs):
+    user_group = Group.objects.get(name='users')
+    user_group.user_set.add(instance)

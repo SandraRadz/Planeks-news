@@ -11,7 +11,7 @@
             <div class="news-item">
                 <div class="news-title">{{ new.title }}</div>
                 <div class="news-pub_date">{{ new.pub_date }}</div>
-                <div class="news-author">Автор: {{ new.author.username }}</div>
+                <div class="news-author">Автор: {{ new.author.email }}</div>
                     <div class="news-text">{{ new.text|safe }}</div>
                 <a href="{% url 'new-item' new.id %}">Обсудить</a>
             </div>
