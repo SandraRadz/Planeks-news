@@ -1,11 +1,7 @@
-from django.conf import settings
-from django.template import loader
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import generic
 
-from myuser.mail_sender import MailSender
 from news.forms import CommentForm, NewForm
 from news.models import New, Comment
 
@@ -35,14 +31,6 @@ class NewComment(LoginRequiredMixin, generic.detail.SingleObjectMixin, generic.F
 
     def form_valid(self, form):
         Comment.objects.create(author=self.request.user, text=form.cleaned_data['text'], new=self.get_object())
-        html_message = loader.render_to_string(
-            'news/letter.html',
-            {
-                'user': self.request.user,
-                'new': self.get_object().title,
-            }
-        )
-        MailSender.send_html("Подтвердите email", html_message, settings.LETTER_FROM, self.get_object().author.email)
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
@@ -66,6 +54,7 @@ class CreateNew(LoginRequiredMixin, generic.FormView):
 
     def form_valid(self, form):
         New.objects.create(author=self.request.user, text=form.cleaned_data['text'], title=form.cleaned_data['title'])
+        print("CREATED")
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):

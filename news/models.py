@@ -3,6 +3,10 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from news.tasks import send_comment_letter
 
 
 class New(models.Model):
@@ -18,8 +22,10 @@ class New(models.Model):
 
     title = models.CharField(max_length=100, verbose_name="Заголовок")
     text = models.TextField(verbose_name="Текст")
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="news", verbose_name="Автор", on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, verbose_name="Статус", choices=NewsStatus.choices, default=NewsStatus.CREATED)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="news", verbose_name="Автор",
+                               on_delete=models.CASCADE)
+    status = models.CharField(max_length=1, verbose_name="Статус", choices=NewsStatus.choices,
+                              default=NewsStatus.CREATED)
     date_created = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
     pub_date = models.DateTimeField(verbose_name='Дата публикации', blank=True, null=True)
 
@@ -49,10 +55,16 @@ class Comment(models.Model):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="comments", verbose_name="Автор", on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="comments", verbose_name="Автор",
+                               on_delete=models.CASCADE)
     text = models.TextField(verbose_name="Текст комментария")
     new = models.ForeignKey(New, related_name="comments", verbose_name="Новость", on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата написания")
 
     def __str__(self):
-        return "Комментарий "+self.author.email
+        return "Комментарий " + self.author.email
+
+
+@receiver(post_save, sender=Comment)
+def send_letter(sender, instance, **kwargs):
+    send_comment_letter.delay(instance.pk)

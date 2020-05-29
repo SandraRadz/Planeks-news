@@ -4,6 +4,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from myuser.tasks import send_confirmation_email
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -50,6 +52,8 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
 
 @receiver(post_save, sender=MyUser)
-def update_stock(sender, instance, **kwargs):
+def user_creation(sender, instance, **kwargs):
+    if not instance.is_approved:
+        send_confirmation_email.delay(instance.pk)
     user_group = Group.objects.get(name='users')
     user_group.user_set.add(instance)

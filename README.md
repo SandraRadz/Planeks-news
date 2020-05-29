@@ -10,7 +10,16 @@ pip install -r requirements.txt
 ```bash
 python manage.py migrate
 ```
-3. Run the server
+3. Install and run Redis server
+```bash
+redis-server
+```
+4. Run Celery server
+```bash
+celery -A planeks_news worker -l info
+celery -A quick_publisher worker --pool=solo -l info 
+```
+5. Run the server
 ```bash
 python manage.py runserver
 ```
