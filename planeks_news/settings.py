@@ -150,7 +150,7 @@ LETTER_FROM = 'oleksandraradzievska@gmail.com'
 # REDIS_PORT = '6379'
 # BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 # BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-REDIS_URL = os.environ.get('REDIS_URL', 'http://localhost:6379')
+REDIS_URL = os.getenv('REDIS_URL', 'http://localhost:6379')
 
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 CELERY_ACCEPT_CONTENT = ['json']
