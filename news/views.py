@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
+from requests import request
 
 from news.forms import CommentForm, NewForm
 from news.models import New, Comment
@@ -57,5 +59,8 @@ class CreateNew(LoginRequiredMixin, generic.FormView):
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
-        # todo "thanks for your suggestion"|new-item/pk
-        return reverse('news-list')
+        return reverse('thanks-view')
+
+
+def thanks_view(request):
+    return render(request, 'news/thanks_page.html')
