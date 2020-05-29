@@ -54,7 +54,6 @@ class CreateNew(LoginRequiredMixin, generic.FormView):
 
     def form_valid(self, form):
         New.objects.create(author=self.request.user, text=form.cleaned_data['text'], title=form.cleaned_data['title'])
-        print("CREATED")
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):

@@ -17,7 +17,7 @@ redis-server
 4. Run Celery server
 ```bash
 celery -A planeks_news worker -l info
-celery -A quick_publisher worker --pool=solo -l info 
+celery -A planeks_news worker --pool=solo -l info 
 ```
 5. Run the server
 ```bash
