@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-APP_DOMAIN = '127.0.0.1:8000'
+APP_DOMAIN = os.environ.get('PLANEKS_APP_DOMAIN', '127.0.0.1:8000')
 
 # Application definition
 
