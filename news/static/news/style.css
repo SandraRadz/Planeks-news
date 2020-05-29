@@ -82,3 +82,7 @@
 .error-message{
     color: red;
 }
+
+.error-message-container{
+    margin: 30px 40px;
+}

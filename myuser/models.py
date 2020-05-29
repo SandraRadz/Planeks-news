@@ -23,6 +23,7 @@ class MyUserManager(BaseUserManager):
         )
         user.is_staff = True
         user.is_superuser = True
+        user.is_approved = True
         user.save(using=self._db)
         return user
 
@@ -37,8 +38,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     is_staff = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
 
-    object = MyUserManager()
+    objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -28,8 +28,10 @@
       {% endif %}
     </ul>
 </nav>
+<div class="error-message-container">
+    {% if user.is_authenticated and not user.is_approved %} <div class="error-message"> Подтвердите, пожалуйста, свой email! </div>{% endif %}
+</div>
 {% block content %}
-
 {% endblock %}
 </body>
 </html>

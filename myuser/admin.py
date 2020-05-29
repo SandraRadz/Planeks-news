@@ -15,7 +15,7 @@ class MyUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Персональная информация', {'fields': ('first_name', 'last_name', 'date_of_birth')}),
-        ('Разрешения', {'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions')})
+        ('Разрешения', {'fields': ('is_staff', 'is_superuser', 'is_approved', 'groups', 'user_permissions')})
     )
 
     add_fieldsets = (

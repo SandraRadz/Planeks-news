@@ -7,7 +7,7 @@
         <div class="page-title">Создать новость</div>
         <form action="{% url 'user-log-in' %}" method="post">
             {% csrf_token %}
-            {{ form.non_field_errors }}
+            <div class="error-message">{{ form.non_field_errors }}</div>
             {% for field in form %}
                 <div class="fieldWrapper">
                     {{ field|as_crispy_field }}

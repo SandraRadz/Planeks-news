@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+APP_DOMAIN = '127.0.0.1:8000'
 
 # Application definition
 
@@ -138,3 +139,4 @@ EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+LETTER_FROM = 'oleksandraradzievska@gmail.com'
