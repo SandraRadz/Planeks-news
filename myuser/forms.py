@@ -11,6 +11,11 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ('email', 'first_name', 'last_name', 'date_of_birth')
+        labels = {
+            "first_name": "Имя",
+            "last_name": "Фамилия",
+            "date_of_birth": "Дата рождения (у формате 2000-05-27)",
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
