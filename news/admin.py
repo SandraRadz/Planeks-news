@@ -12,9 +12,9 @@ class CommentInline(admin.TabularInline):
 class NewAdmin(SummernoteModelAdmin):
     list_display = ('title', 'author', 'status', 'date_created')
     list_filter = ('date_created',)
-    exclude = ['pub_date']
     inlines = [CommentInline]
     summernote_fields = ('text',)
+    readonly_fields = ('date_created', 'pub_date')
 
 
 admin.site.register(New, NewAdmin)
